@@ -1,0 +1,20 @@
+{
+  "server":{
+    "mode_start": "debug",
+    "port":":7070",
+    "secret_key_token":"kb.ukravto.in.ua"
+  },
+  "data_base":{
+    "name_driver":"sqlite3",
+    "path":"/phones.db3",
+    "log_mode": true
+  },
+  "settings_parse_file":{
+    "path_file":"/phones.xlsx",
+    "number_column_post":1,
+    "number_column_full_name":2,
+    "number_column_email":3,
+    "number_column_contact_info":4,
+    "number_column_phone":5
+  }
+}
