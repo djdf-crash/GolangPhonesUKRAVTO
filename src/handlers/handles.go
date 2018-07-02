@@ -35,3 +35,7 @@ func PhonesByOrganizationIDHandler(ctx *gin.Context) {
 func AllOrganizationHandler(ctx *gin.Context) {
 	GetAllOrganizationFunc(ctx)
 }
+
+func GetLastUpdateAPKHandler(ctx *gin.Context) {
+	GetLastUpdateAPKFunc(ctx)
+}

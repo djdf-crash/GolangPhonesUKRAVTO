@@ -37,5 +37,6 @@ func CheckAuthenticationFunc(ctx *gin.Context) {
 	ctx.Set("user", userDB)
 	ctx.Set("name_organization", ctx.Query("nameorganization"))
 	ctx.Set("id_organization", ctx.Query("idorganization"))
+	ctx.Set("version_name_apk", ctx.Query("currentversionname"))
 
 }

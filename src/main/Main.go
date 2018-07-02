@@ -72,6 +72,12 @@ func main() {
 		organizationGroup.GET("/all", handlers.AllOrganizationHandler)
 	}
 
+	apkGroup := v1.Group("/apk", handlers.CheckAuthenticationMiddleware)
+
+	{
+		apkGroup.GET("/lastupdate", handlers.GetLastUpdateAPKHandler)
+	}
+
 	go utils.CheckerFile()
 
 	//log.Fatal(autotls.Run(router, "35.234.94.146"))

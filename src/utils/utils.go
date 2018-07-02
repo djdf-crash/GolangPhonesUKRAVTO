@@ -68,7 +68,7 @@ func CheckerFile() {
 
 				if (row.Cells[0].GetStyle().Font.Size == 12 || row.Cells[0].GetStyle().Font.Size == 18 ||
 					(row.Cells[0].GetStyle().Font.Size == 10 && newOrganization == strings.ToUpper(newOrganization))) &&
-					(!strings.Contains(strings.ToLower(newOrganization), "відділ") &&
+					(!strings.Contains(newOrganization, "Відділ") &&
 						!strings.Contains(strings.ToLower(newOrganization), "сервіс")) {
 					strOrganization = newOrganization
 					continue

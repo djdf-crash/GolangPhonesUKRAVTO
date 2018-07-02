@@ -17,6 +17,10 @@ type dataBase struct {
 	LogMode    bool   `json:"log_mode"`
 }
 
+type SettingUpdateFileAPK struct {
+	PathFile string `json:"path_file"`
+}
+
 type SettingsParseFile struct {
 	PathFile                string `json:"path_file"`
 	NumberColumnPost        int    `json:"number_column_post"`
@@ -27,9 +31,10 @@ type SettingsParseFile struct {
 }
 
 type config struct {
-	Server            *server            `json:"server,required"`
-	DataBase          *dataBase          `json:"data_base,required"`
-	SettingsParseFile *SettingsParseFile `json:"settings_parse_file"`
+	Server                     *server               `json:"server,required"`
+	DataBase                   *dataBase             `json:"data_base,required"`
+	SettingsParseFile          *SettingsParseFile    `json:"settings_parse_file"`
+	SettingsParseUpdateAPKFile *SettingUpdateFileAPK `json:"settings_parse_update_apk_file"`
 }
 
 var AppConfig *config
