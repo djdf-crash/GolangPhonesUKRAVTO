@@ -39,3 +39,7 @@ func AllOrganizationHandler(ctx *gin.Context) {
 func GetLastUpdateAPKHandler(ctx *gin.Context) {
 	GetLastUpdateAPKFunc(ctx)
 }
+
+func DownloadLastUpdateAPKHandler(ctx *gin.Context) {
+	DownloadLastUpdateAPKFunc(ctx)
+}

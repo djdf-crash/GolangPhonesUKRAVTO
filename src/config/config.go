@@ -19,6 +19,7 @@ type dataBase struct {
 
 type SettingUpdateFileAPK struct {
 	PathFile string `json:"path_file"`
+	Path     string `json:"path"`
 }
 
 type SettingsParseFile struct {

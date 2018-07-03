@@ -76,6 +76,7 @@ func main() {
 
 	{
 		apkGroup.GET("/lastupdate", handlers.GetLastUpdateAPKHandler)
+		apkGroup.GET("/download", handlers.DownloadLastUpdateAPKHandler)
 	}
 
 	go utils.CheckerFile()
