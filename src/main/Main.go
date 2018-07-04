@@ -2,43 +2,35 @@ package main
 
 import (
 	"config"
+	"context"
 	"db"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"handlers"
 	"io"
 	"log"
+	"net/http"
 	"os"
-	"path/filepath"
+	"os/signal"
+	"time"
 	"utils"
 )
 
 func main() {
 
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(dir)
-
-	err = config.InitConfig(dir + "/config.json")
-	//err = config.InitConfig("./config.json")
-	if err != nil {
-		log.Panic(err.Error())
-	}
+	utils.ReadConfigFile(false)
 
 	db.InitDB()
 	defer db.DB.Close()
 
 	port := config.AppConfig.Server.Port
 	if len(port) == 0 {
-		port = ":8080"
+		port = ":7070"
 	}
 
 	gin.DisableConsoleColor()
 
 	// Logging to a file.
-	f, err := os.Create(dir + "/logs/gin.log")
+	f, err := os.Create(config.AppConfig.RootDirPath + "logs" + string(os.PathSeparator) + "gin.log")
 	if err != nil {
 		log.Panic(err.Error())
 	}
@@ -80,7 +72,32 @@ func main() {
 	}
 
 	go utils.CheckerFile()
+	go utils.ReadConfigFile(true)
+
+	srv := &http.Server{
+		Addr:    port,
+		Handler: router,
+	}
+
+	go func() {
+		// service connections
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	log.Println("Shutdown Server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server Shutdown:", err)
+	}
+	log.Println("Server exiting")
 
 	//log.Fatal(autotls.Run(router, "35.234.94.146"))
-	router.Run(port)
+	//router.Run(port)
 }

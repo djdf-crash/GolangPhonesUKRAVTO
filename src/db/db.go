@@ -24,7 +24,7 @@ func InitDB() error {
 	dataBaseConfig := config.AppConfig.DataBase
 
 	//DB, err = gorm.Open(dataBaseConfig.NameDriver, dataBaseConfig.Path)
-	DB, err = gorm.Open(dataBaseConfig.NameDriver, dir+dataBaseConfig.Path)
+	DB, err = gorm.Open(dataBaseConfig.NameDriver, dir+string(os.PathSeparator)+dataBaseConfig.Path)
 	if err != nil {
 		log.Panic(err.Error())
 		return err

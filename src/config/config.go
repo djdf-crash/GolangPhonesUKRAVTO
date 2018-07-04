@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
 )
 
 type server struct {
@@ -36,6 +37,7 @@ type config struct {
 	DataBase                   *dataBase             `json:"data_base,required"`
 	SettingsParseFile          *SettingsParseFile    `json:"settings_parse_file"`
 	SettingsParseUpdateAPKFile *SettingUpdateFileAPK `json:"settings_parse_update_apk_file"`
+	RootDirPath                string
 }
 
 var AppConfig *config
@@ -53,6 +55,10 @@ func InitConfig(pathConfigFile string) error {
 	if err != nil {
 		return err
 	}
+
+	dir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+
+	AppConfig.RootDirPath = dir + string(os.PathSeparator)
 
 	return nil
 

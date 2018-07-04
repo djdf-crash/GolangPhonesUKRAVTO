@@ -19,25 +19,19 @@ import (
 
 func CheckerFile() {
 
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	excelFileName := dir + config.AppConfig.SettingsParseFile.PathFile
+	excelFileName := config.AppConfig.RootDirPath + config.AppConfig.SettingsParseFile.PathFile
 
 	fmt.Println(excelFileName)
 
 	if len(excelFileName) == 0 {
-		fmt.Errorf("No set file path!")
+		log.Println("No set file path in config!")
 		time.Sleep(30 * time.Minute)
-		err = config.InitConfig(dir + "/config.json")
 		CheckerFile()
 		return
 	}
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {
-		fmt.Errorf(err.Error())
+		log.Println(err.Error())
 		time.Sleep(24 * time.Hour)
 		CheckerFile()
 	}
@@ -149,7 +143,7 @@ func CheckerFile() {
 	SaveInDB(&mapOrg)
 
 	time.Sleep(30 * time.Minute)
-	err = config.InitConfig(dir + "/config.json")
+
 	CheckerFile()
 }
 func SaveInDB(mapOrg *map[string][]db.Employee) {
@@ -288,6 +282,25 @@ func GetRealPhoneSubMatch(strPhone string, re *regexp.Regexp) string {
 
 	return ""
 
+}
+
+func ReadConfigFile(start bool) {
+
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(dir)
+
+	err = config.InitConfig(dir + string(os.PathSeparator) + "config.json")
+	if err != nil {
+		log.Panic(err.Error())
+	}
+
+	if start {
+		time.Sleep(30 * time.Minute)
+		ReadConfigFile(true)
+	}
 }
 
 func ComputeHmac256(message string, secret string) string {
