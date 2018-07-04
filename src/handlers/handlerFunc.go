@@ -49,8 +49,7 @@ func GetPhonesByOrganizationNameFunc(ctx *gin.Context) {
 	RespondWithMessage(http.StatusOK, 0, resp, ctx)
 }
 
-func GetPhonesByOrganizationIDFunc(ctx *gin.Context) {
-
+func GetPhonesByOrganizationIDLastUpdateFunc(ctx *gin.Context) {
 	var arrEmployee []db.Employee
 	var resp ResponseModelEmployee
 
@@ -83,6 +82,37 @@ func GetPhonesByOrganizationIDFunc(ctx *gin.Context) {
 	//db.UpdateUser(&userDB)
 
 	RespondWithMessage(http.StatusOK, 0, resp, ctx)
+}
+
+func GetPhonesByOrganizationIDFunc(ctx *gin.Context) {
+
+	var arrEmployee []db.Employee
+	var resp ResponseModelEmployee
+
+	idStr := ctx.Param("id_organization")
+
+	u64ISStr, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		resp = ResponseModelEmployee{
+			Result:    false,
+			Error:     err.Error(),
+			Employees: arrEmployee,
+		}
+		RespondWithMessage(http.StatusOK, 0, resp, ctx)
+		return
+	}
+
+	org := db.GetOrganizationByID(uint(u64ISStr))
+
+	arrEmployee = db.GetEmployeesByOrganizationID(org.ID)
+	resp = ResponseModelEmployee{
+		Result:    true,
+		Error:     "",
+		Employees: arrEmployee,
+	}
+
+	RespondWithMessage(http.StatusOK, 0, resp, ctx)
+
 }
 
 func GetAllOrganizationFunc(ctx *gin.Context) {
@@ -173,7 +203,7 @@ func GetPhonesLastUpdateFunc(ctx *gin.Context) {
 	} else if len(nameOrg) != 0 {
 		GetPhonesByOrganizationNameFunc(ctx)
 	} else if len(idOrg) != 0 {
-		GetPhonesByOrganizationIDFunc(ctx)
+		GetPhonesByOrganizationIDLastUpdateFunc(ctx)
 	}
 }
 

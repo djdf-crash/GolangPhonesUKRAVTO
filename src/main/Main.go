@@ -56,6 +56,7 @@ func main() {
 	{
 		phonesGroup.GET("/all", handlers.AllPhonesHandler)
 		phonesGroup.GET("/lastupdate", handlers.GetPhonesLastUpdateHandler)
+		phonesGroup.GET("/idorganization/:id", handlers.PhonesByOrganizationIDHandler)
 	}
 
 	organizationGroup := v1.Group("/organization", handlers.CheckAuthenticationMiddleware)

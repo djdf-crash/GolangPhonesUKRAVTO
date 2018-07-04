@@ -223,6 +223,11 @@ func GetEmployeesByOrganizationIDLastUpdate(id uint, lastUpdate time.Time) []Emp
 	return e
 }
 
+func GetEmployeesByOrganizationID(id uint) []Employee {
+
+	return GetEmployeesByOrganizationIDLastUpdate(id, time.Time{})
+}
+
 func GetEmployeeByFullNameANDOrganizationID(id uint, fullName string, post string) Employee {
 	var employee Employee
 
