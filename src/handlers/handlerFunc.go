@@ -252,7 +252,11 @@ func GetLastUpdateAPKFunc(ctx *gin.Context) {
 		NewVersionNameAPK: "",
 	}
 
-	configFile, err := os.Open(config.AppConfig.RootDirPath + config.AppConfig.SettingsParseUpdateAPKFile.PathFile)
+	configFile, err := os.Open(config.AppConfig.RootDirPath +
+		config.AppConfig.SettingsParseUpdateAPKFile.Path +
+		string(os.PathSeparator) +
+		config.AppConfig.SettingsParseUpdateAPKFile.PathFile)
+
 	if err != nil {
 		resp.Error = err.Error()
 		RespondWithMessage(http.StatusOK, 0, resp, ctx)
