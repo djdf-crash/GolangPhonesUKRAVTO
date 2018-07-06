@@ -89,7 +89,7 @@ func GetPhonesByOrganizationIDFunc(ctx *gin.Context) {
 	var arrEmployee []db.Employee
 	var resp ResponseModelEmployee
 
-	idStr := ctx.Param("id_organization")
+	idStr := ctx.Param("id")
 
 	u64ISStr, err := strconv.ParseUint(idStr, 10, 32)
 	if err != nil {

@@ -34,7 +34,7 @@ func main() {
 	if err != nil {
 		log.Panic(err.Error())
 	}
-	gin.DefaultWriter = io.MultiWriter(f)
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	gin.SetMode(config.AppConfig.Server.ModeStart)
 
