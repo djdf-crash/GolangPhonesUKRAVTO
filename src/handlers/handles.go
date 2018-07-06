@@ -16,6 +16,10 @@ func AddUsersHandler(ctx *gin.Context) {
 	AddUsersFunc(ctx)
 }
 
+func TokenIsExistHandler(ctx *gin.Context) {
+	TokenIsExistFunc(ctx)
+}
+
 func UpdateUsersHandler(ctx *gin.Context) {
 	UpdateUsersFunc(ctx)
 }

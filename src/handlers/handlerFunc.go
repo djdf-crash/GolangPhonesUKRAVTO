@@ -163,6 +163,18 @@ func AddUsersFunc(ctx *gin.Context) {
 	RespondWithMessage(http.StatusOK, 0, resp, ctx)
 }
 
+func TokenIsExistFunc(ctx *gin.Context) {
+	user, _ := ctx.Get("user")
+	userDB := user.(db.User)
+	resp := ResponseModelToken{
+		Result: true,
+		Error:  "",
+		Token:  userDB.Token,
+	}
+
+	RespondWithMessage(http.StatusOK, 0, resp, ctx)
+}
+
 func UpdateUsersFunc(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	userDB := user.(db.User)

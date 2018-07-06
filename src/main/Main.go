@@ -48,6 +48,7 @@ func main() {
 
 	{
 		usersGroup.POST("/token", handlers.CheckEmailHandler, handlers.AddUsersHandler)
+		usersGroup.POST("/tokenisexist", handlers.CheckAuthenticationMiddleware, handlers.TokenIsExistHandler)
 		usersGroup.POST("/update", handlers.CheckAuthenticationMiddleware, handlers.UpdateUsersHandler)
 	}
 
