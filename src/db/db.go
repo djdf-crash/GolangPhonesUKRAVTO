@@ -231,7 +231,7 @@ func GetEmployeesByOrganizationID(id uint) []Employee {
 func GetEmployeeByFullNameANDOrganizationID(id uint, fullName string, dep string, sect string, post string) Employee {
 	var employee Employee
 
-	DB.Where("full_name = ? AND organization_id = ? AND department = ? AND section = ? AND post = ?", fullName, id, dep, post).Find(&employee)
+	DB.Where("full_name = ? AND organization_id = ? AND department = ? AND section = ? AND post = ?", fullName, id, dep, sect, post).Find(&employee)
 
 	return employee
 }
