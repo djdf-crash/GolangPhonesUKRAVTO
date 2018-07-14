@@ -5,14 +5,16 @@ import (
 )
 
 type Employee struct {
-	ID               uint   `gorm:"primary_key"`
-	FullName         string `json:"full_name" xlsx:"1"`
-	Post             string `json:"post" xlsx:"0"`
-	Email            string `json:"email" xlsx:"2"`
-	ContactInfo      string `xlsx:"3"`
-	Phone            string `xlsx:"4"`
-	OrganizationName string `json:"organization_name"`
-	OrganizationID   uint
+	ID               uint      `gorm:"primary_key"`
+	FullName         string    `json:"full_name"`
+	Post             string    `json:"post"`
+	Email            string    `json:"email"`
+	ContactInfo      string    `json:"contact_info"`
+	Phone            string    `json:"phone"`
+	Department       string    `json:"department"`
+	Section          string    `json:"section"`
+	OrganizationName string    `json:"organization_name"`
+	OrganizationID   uint      `json:"organization_id"`
 	RealPhone        string    `json:"real_phone"`
 	LastUpdate       time.Time `json:"last_update"`
 	IsDelete         bool      `json:"delete"`

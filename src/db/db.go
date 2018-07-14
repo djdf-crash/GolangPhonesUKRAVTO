@@ -178,7 +178,7 @@ func GetUserByEmailAndDeviceID(email, deviceID string) User {
 func GetOrganizationByName(name string) Organization {
 	var organization Organization
 
-	DB.Where("name LIKE ?", "%"+name+"%").First(&organization)
+	DB.Where("name = ?", name).First(&organization)
 
 	return organization
 }
@@ -186,7 +186,7 @@ func GetOrganizationByName(name string) Organization {
 func GetOrganizationByNameAndLastUpdate(name string, lastUpdate time.Time) Organization {
 	var organization Organization
 
-	DB.Where("name LIKE ? AND last_update_phones >= ?", "%"+name+"%", lastUpdate).Find(&organization)
+	DB.Where("name = ? AND last_update_phones >= ?", name, lastUpdate).Find(&organization)
 
 	return organization
 }
@@ -228,10 +228,10 @@ func GetEmployeesByOrganizationID(id uint) []Employee {
 	return GetEmployeesByOrganizationIDLastUpdate(id, time.Time{})
 }
 
-func GetEmployeeByFullNameANDOrganizationID(id uint, fullName string, post string) Employee {
+func GetEmployeeByFullNameANDOrganizationID(id uint, fullName string, dep string, sect string, post string) Employee {
 	var employee Employee
 
-	DB.Where("full_name = ? AND organization_id = ? AND post = ?", fullName, id, post).Find(&employee)
+	DB.Where("full_name = ? AND organization_id = ? AND department = ? AND section = ? AND post = ?", fullName, id, dep, post).Find(&employee)
 
 	return employee
 }

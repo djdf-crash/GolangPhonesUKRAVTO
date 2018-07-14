@@ -46,27 +46,25 @@ func CheckerFile() {
 
 		strOrganization = ""
 
-		for _, row := range sheet.Rows {
+		for ind, row := range sheet.Rows {
+
+			if ind <= 2 {
+				continue
+			}
 
 			employee := &db.Employee{}
 
-			row.ReadStruct(employee)
+			//row.ReadStruct(employee)
 
 			if len(row.Cells) > 0 {
 
-				newOrganization := GetTrimString(strings.Split(row.Cells[0].Value, "\n")[0], " ")
+				newOrganization := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnOrganization].String())
 
 				if len(newOrganization) == 0 {
 					continue
 				}
 
-				if (row.Cells[0].GetStyle().Font.Size == 12 || row.Cells[0].GetStyle().Font.Size == 18 ||
-					(row.Cells[0].GetStyle().Font.Size == 10 && newOrganization == strings.ToUpper(newOrganization))) &&
-					(!strings.Contains(newOrganization, "Відділ") &&
-						!strings.Contains(strings.ToLower(newOrganization), "сервіс")) {
-					strOrganization = newOrganization
-					continue
-				}
+				strOrganization = newOrganization
 			}
 
 			if len(strOrganization) == 0 {
@@ -77,9 +75,16 @@ func CheckerFile() {
 				mapOrg[strOrganization] = []db.Employee{}
 			}
 
-			employee.FullName = strings.TrimSpace(employee.FullName)
-			if len(employee.FullName) == 0 {
-				if len(employee.ContactInfo) == 0 {
+			fullName := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnFullName].String())
+			department := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnDepartment].String())
+			section := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnSection].String())
+			post := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnPost].String())
+			email := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnEmail].String())
+			contactInfo := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnContactInfo].String())
+			phone := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnPhone].String())
+
+			if len(fullName) == 0 {
+				if len(contactInfo) == 0 {
 					continue
 				}
 				if len(mapOrg[strOrganization]) == 0 {
@@ -90,9 +95,9 @@ func CheckerFile() {
 					continue
 				}
 
-				tmpEmployee.RealPhone = GetRealPhoneSubMatch(employee.ContactInfo, re)
+				tmpEmployee.RealPhone = GetRealPhoneSubMatch(contactInfo, re)
 				if len(tmpEmployee.RealPhone) == 0 {
-					tmpEmployee.RealPhone = GetRealPhoneSubMatch(employee.Phone, re)
+					tmpEmployee.RealPhone = GetRealPhoneSubMatch(phone, re)
 				}
 
 				if len(tmpEmployee.RealPhone) != 0 {
@@ -103,11 +108,13 @@ func CheckerFile() {
 			}
 
 			employee.OrganizationName = strOrganization
-			employee.FullName = GetTrimString(employee.FullName, " ")
-			employee.Post = GetTrimString(strings.TrimSpace(employee.Post), " ")
-			employee.Email = GetTrimString(strings.TrimSpace(employee.Email), " ")
-			employee.ContactInfo = GetTrimString(strings.TrimSpace(employee.ContactInfo), " ")
-			employee.Phone = GetTrimString(strings.TrimSpace(employee.Phone), " ")
+			employee.FullName = GetTrimString(fullName, " ")
+			employee.Post = GetTrimString(strings.TrimSpace(post), " ")
+			employee.Email = GetTrimString(strings.TrimSpace(email), " ")
+			employee.ContactInfo = GetTrimString(strings.TrimSpace(contactInfo), " ")
+			employee.Phone = GetTrimString(strings.TrimSpace(phone), " ")
+			employee.Department = GetTrimString(strings.TrimSpace(department), " ")
+			employee.Section = GetTrimString(strings.TrimSpace(section), " ")
 
 			realPhone := GetRealPhoneSubMatch(employee.ContactInfo, re)
 			if len(realPhone) == 0 {
@@ -193,7 +200,7 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 				continue
 			}
 			emp.OrganizationID = org.ID
-			employeeDb := db.GetEmployeeByFullNameANDOrganizationID(org.ID, emp.FullName, emp.Post)
+			employeeDb := db.GetEmployeeByFullNameANDOrganizationID(org.ID, emp.FullName, emp.Department, emp.Section, emp.Post)
 			if reflect.DeepEqual(emptyEmployee, employeeDb) {
 				emp.LastUpdate = time.Now()
 				err := db.AddEmployee(&emp)
@@ -214,6 +221,14 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 						employeeDb.FullName = emp.FullName
 					}
 
+					if employeeDb.Section != emp.Section {
+						employeeDb.Section = emp.Section
+					}
+
+					if employeeDb.Department != emp.Department {
+						employeeDb.Department = emp.Department
+					}
+
 					if employeeDb.Post != emp.Post {
 						employeeDb.Post = emp.Post
 					}
@@ -231,7 +246,7 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 			}
 		}
 
-		arrEmpDbOrg := db.GetEmployeesByOrganizationIDLastUpdate(org.ID, time.Time{})
+		arrEmpDbOrg := db.GetEmployeesByOrganizationID(org.ID)
 
 		for _, empDB := range arrEmpDbOrg {
 			find := false

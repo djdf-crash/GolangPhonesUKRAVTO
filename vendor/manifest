@@ -4,7 +4,7 @@
 		{
 			"importpath": "github.com/denisenkom/go-mssqldb",
 			"repository": "https://github.com/denisenkom/go-mssqldb",
-			"revision": "3724b4745ca99cd0374ace516e93c022c00dfda9",
+			"revision": "242fa5aa1b45aeb9fcdfeee88822982e3f548e22",
 			"branch": "master"
 		},
 		{
@@ -28,7 +28,7 @@
 		{
 			"importpath": "github.com/gin-gonic/gin",
 			"repository": "https://github.com/gin-gonic/gin",
-			"revision": "c00f21ff239822d013b80e54bd403fbc08a0b5ff",
+			"revision": "85221af84cf6ee99dc900bc41912abc09acfc1b5",
 			"branch": "master"
 		},
 		{
@@ -40,7 +40,7 @@
 		{
 			"importpath": "github.com/golang/protobuf/proto",
 			"repository": "https://github.com/golang/protobuf",
-			"revision": "9eb2c01ac278a5d89ce4b2be68fe4500955d8179",
+			"revision": "70b3af33377e7aa25ae42977bed93cc6b90f0373",
 			"branch": "master",
 			"path": "/proto"
 		},
@@ -83,7 +83,7 @@
 		{
 			"importpath": "github.com/mattn/go-sqlite3",
 			"repository": "https://github.com/mattn/go-sqlite3",
-			"revision": "25ecb14adfc7543176f7d85291ec7dba82c6f7e4",
+			"revision": "3aefd9f0a162514f66d0e4ceda3edc44e66b502e",
 			"branch": "master"
 		},
 		{
@@ -101,7 +101,7 @@
 		{
 			"importpath": "github.com/ugorji/go/codec",
 			"repository": "https://github.com/ugorji/go",
-			"revision": "edc8f1f6bad21cca2dcbc2f4d4ced265111ccea6",
+			"revision": "2e1067cd04ec91c6fdf491ac8028c9d3aea73ab4",
 			"branch": "master",
 			"path": "/codec"
 		},
@@ -129,7 +129,7 @@
 		{
 			"importpath": "golang.org/x/net/context",
 			"repository": "https://go.googlesource.com/net",
-			"revision": "afe8f62b1d6bbd81f31868121a50b06d8188e1f9",
+			"revision": "d0887baf81f4598189d4e12a37c6da86f0bba4d0",
 			"branch": "master",
 			"path": "/context"
 		},
