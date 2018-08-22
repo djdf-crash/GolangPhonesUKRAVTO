@@ -9,13 +9,14 @@ type Employee struct {
 	FullName         string    `json:"full_name"`
 	Post             string    `json:"post"`
 	Email            string    `json:"email"`
-	ContactInfo      string    `json:"contact_info"`
+	PhoneMobile      string    `json:"phone_mobile"`
 	Phone            string    `json:"phone"`
 	Department       string    `json:"department"`
 	Section          string    `json:"section"`
 	OrganizationName string    `json:"organization_name"`
+	Category         string    `json:"category"`
 	OrganizationID   uint      `json:"organization_id"`
-	RealPhone        string    `json:"real_phone"`
+	Address          string    `json:"address"`
 	LastUpdate       time.Time `json:"last_update"`
 	IsDelete         bool      `json:"delete"`
 }

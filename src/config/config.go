@@ -25,13 +25,15 @@ type SettingUpdateFileAPK struct {
 
 type SettingsParseFile struct {
 	PathFile                 string `json:"path_file"`
+	NumberColumnCategory     int    `json:"number_column_category"`
 	NumberColumnOrganization int    `json:"number_column_organization"`
+	NumberColumnAddress      int    `json:"number_column_address"`
 	NumberColumnDepartment   int    `json:"number_column_department"`
 	NumberColumnSection      int    `json:"number_column_section"`
 	NumberColumnPost         int    `json:"number_column_post"`
 	NumberColumnFullName     int    `json:"number_column_full_name"`
 	NumberColumnEmail        int    `json:"number_column_email"`
-	NumberColumnContactInfo  int    `json:"number_column_contact_info"`
+	NumberColumnPhoneMobile  int    `json:"number_column_phone_mobile"`
 	NumberColumnPhone        int    `json:"number_column_phone"`
 }
 

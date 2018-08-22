@@ -80,27 +80,29 @@ func CheckerFile() {
 			section := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnSection].String())
 			post := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnPost].String())
 			email := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnEmail].String())
-			contactInfo := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnContactInfo].String())
+			phoneMobile := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnPhoneMobile].String())
 			phone := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnPhone].String())
+			category := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnCategory].String())
+			address := strings.TrimSpace(row.Cells[config.AppConfig.SettingsParseFile.NumberColumnAddress].String())
 
 			if len(fullName) == 0 {
-				if len(contactInfo) == 0 {
+				if len(phoneMobile) == 0 {
 					continue
 				}
 				if len(mapOrg[strOrganization]) == 0 {
 					continue
 				}
 				tmpEmployee := mapOrg[strOrganization][len(mapOrg[strOrganization])-1]
-				if len(tmpEmployee.RealPhone) != 0 {
+				if len(tmpEmployee.PhoneMobile) != 0 {
 					continue
 				}
 
-				tmpEmployee.RealPhone = GetRealPhoneSubMatch(contactInfo, re)
-				if len(tmpEmployee.RealPhone) == 0 {
-					tmpEmployee.RealPhone = GetRealPhoneSubMatch(phone, re)
+				tmpEmployee.PhoneMobile = GetRealPhoneSubMatch(phoneMobile, re)
+				if len(tmpEmployee.PhoneMobile) == 0 {
+					tmpEmployee.PhoneMobile = GetRealPhoneSubMatch(phone, re)
 				}
 
-				if len(tmpEmployee.RealPhone) != 0 {
+				if len(tmpEmployee.PhoneMobile) != 0 {
 					mapOrg[strOrganization] = append(mapOrg[strOrganization][:len(mapOrg[strOrganization])-1], tmpEmployee)
 				}
 
@@ -111,16 +113,18 @@ func CheckerFile() {
 			employee.FullName = GetTrimString(fullName, " ")
 			employee.Post = GetTrimString(strings.TrimSpace(post), " ")
 			employee.Email = GetTrimString(strings.TrimSpace(email), " ")
-			employee.ContactInfo = GetTrimString(strings.TrimSpace(contactInfo), " ")
+			employee.PhoneMobile = GetTrimString(strings.TrimSpace(phoneMobile), " ")
 			employee.Phone = GetTrimString(strings.TrimSpace(phone), " ")
 			employee.Department = GetTrimString(strings.TrimSpace(department), " ")
 			employee.Section = GetTrimString(strings.TrimSpace(section), " ")
+			employee.Category = GetTrimString(strings.TrimSpace(category), " ")
+			employee.Address = GetTrimString(strings.TrimSpace(address), " ")
 
-			realPhone := GetRealPhoneSubMatch(employee.ContactInfo, re)
+			realPhone := GetRealPhoneSubMatch(employee.PhoneMobile, re)
 			if len(realPhone) == 0 {
 				realPhone = GetRealPhoneSubMatch(employee.Phone, re)
 			}
-			employee.RealPhone = realPhone
+			employee.PhoneMobile = realPhone
 
 			employee.LastUpdate = time.Now()
 
@@ -133,7 +137,7 @@ func CheckerFile() {
 		var newArrayEmployee []db.Employee
 
 		for _, emp := range v {
-			if len(emp.RealPhone) == 0 && len(emp.FullName) == 0 && len(emp.Email) == 0 {
+			if len(emp.PhoneMobile) == 0 && len(emp.FullName) == 0 && len(emp.Email) == 0 {
 				continue
 			}
 			newArrayEmployee = append(newArrayEmployee, emp)
@@ -196,7 +200,7 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 
 		for _, emp := range v {
 
-			if len(emp.RealPhone) == 0 && len(emp.FullName) == 0 && len(emp.Email) == 0 {
+			if len(emp.PhoneMobile) == 0 && len(emp.FullName) == 0 && len(emp.Email) == 0 {
 				continue
 			}
 			emp.OrganizationID = org.ID
@@ -210,9 +214,9 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 			} else {
 				var update bool
 
-				if employeeDb.RealPhone != emp.RealPhone {
+				if employeeDb.PhoneMobile != emp.PhoneMobile {
 					update = true
-					employeeDb.RealPhone = emp.RealPhone
+					employeeDb.PhoneMobile = emp.PhoneMobile
 					if employeeDb.Email != emp.Email {
 						employeeDb.Email = emp.Email
 					}
@@ -251,7 +255,7 @@ func SaveInDB(mapOrg *map[string][]db.Employee) {
 		for _, empDB := range arrEmpDbOrg {
 			find := false
 			for _, emp := range v {
-				if empDB.RealPhone == emp.RealPhone {
+				if empDB.PhoneMobile == emp.PhoneMobile {
 					find = true
 					break
 				}
