@@ -27,14 +27,16 @@ func main() {
 		port = ":7070"
 	}
 
-	gin.DisableConsoleColor()
+	if config.AppConfig.Server.ModeStart == "debug" {
+		gin.DisableConsoleColor()
 
-	// Logging to a file.
-	f, err := os.Create(config.AppConfig.RootDirPath + "logs" + string(os.PathSeparator) + "gin.log")
-	if err != nil {
-		log.Panic(err.Error())
+		// Logging to a file.
+		f, err := os.Create(config.AppConfig.RootDirPath + "logs" + string(os.PathSeparator) + "gin.log")
+		if err != nil {
+			log.Panic(err.Error())
+		}
+		gin.DefaultWriter = io.MultiWriter(f)
 	}
-	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 
 	gin.SetMode(config.AppConfig.Server.ModeStart)
 
