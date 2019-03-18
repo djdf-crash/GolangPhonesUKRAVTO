@@ -4,6 +4,7 @@ import (
 	"config"
 	"context"
 	"db"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"handlers"
 	"io"
@@ -38,7 +39,21 @@ func main() {
 
 	gin.SetMode(config.AppConfig.Server.ModeStart)
 
+	ginCors := cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST"},
+		AllowHeaders:     []string{"Authorization, Origin, Content-type, Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return origin == "*"
+		},
+		MaxAge: 12 * time.Hour,
+	})
+
 	router := gin.Default()
+
+	router.Use(ginCors)
 
 	api := router.Group("/api")
 
