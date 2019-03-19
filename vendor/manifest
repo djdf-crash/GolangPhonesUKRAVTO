@@ -14,6 +14,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/gin-contrib/cors",
+			"repository": "https://github.com/gin-contrib/cors",
+			"revision": "f9e10995c85a59827f52e1bbcd62ef9590cbe558",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/gin-contrib/sse",
 			"repository": "https://github.com/gin-contrib/sse",
 			"revision": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae",
