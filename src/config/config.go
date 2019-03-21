@@ -23,6 +23,13 @@ type SettingUpdateFileAPK struct {
 	Path     string `json:"path"`
 }
 
+type SettingsMail struct {
+	ImapServer     string `json:"imap_server"`
+	PortImapServer string `json:"port_imap_server"`
+	Login          string `json:"login"`
+	Password       string `json:"password"`
+}
+
 type SettingsParseFile struct {
 	PathFile                 string `json:"path_file"`
 	NumberColumnCategory     int    `json:"number_column_category"`
@@ -42,6 +49,7 @@ type config struct {
 	DataBase                   *dataBase             `json:"data_base,required"`
 	SettingsParseFile          *SettingsParseFile    `json:"settings_parse_file"`
 	SettingsParseUpdateAPKFile *SettingUpdateFileAPK `json:"settings_parse_update_apk_file"`
+	SettingsMail               *SettingsMail         `json:"settings_mail"`
 	RootDirPath                string
 }
 

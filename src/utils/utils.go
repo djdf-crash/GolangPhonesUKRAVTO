@@ -19,6 +19,8 @@ import (
 
 func CheckerFile() {
 
+	checkFileMail()
+
 	excelFileName := config.AppConfig.RootDirPath + config.AppConfig.SettingsParseFile.PathFile
 
 	fmt.Println(excelFileName)
@@ -156,6 +158,10 @@ func CheckerFile() {
 	time.Sleep(30 * time.Minute)
 
 	CheckerFile()
+}
+
+func checkFileMail() {
+
 }
 func SaveInDB(mapOrg *map[string][]db.Employee) {
 	emptyOrganization := db.Organization{}
